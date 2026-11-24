@@ -1,82 +1,96 @@
-# 💰 Salary Prediction Using Simple Linear Regression
+# 👩‍💼 Employee Attrition Risk Prediction Using Multiple Linear Regression
 
-An end-to-end Machine Learning project demonstrating **Simple Linear Regression** to predict employee salaries based on years of work experience using Python, Pandas, NumPy, Matplotlib and Scikit-Learn.
+An end-to-end Machine Learning project demonstrating **Multiple Linear Regression** to estimate employee attrition-risk scores using employee information with Python, Pandas, NumPy, Matplotlib, Seaborn and Scikit-Learn.
 
 ---
 
 ## 📋 Overview
 
-This project implements a Simple Linear Regression model to analyze and predict employee salaries based on their years of professional experience.
+This project implements a Multiple Linear Regression model to analyze employee information and estimate employee attrition-risk scores.
 
-Using historical salary data, the model learns the mathematical relationship between years of experience and salary. It then uses this relationship to estimate salaries for new experience values.
+Using employee HR data, the model learns the relationship between employee features such as age, monthly income, job satisfaction, years at the company and work-life balance.
 
-The project covers the complete Machine Learning workflow, including data loading, data exploration, visualization, feature selection, model training, prediction, performance evaluation and model serialization using Pickle.
+The project covers the complete Machine Learning workflow, including data loading, data exploration, data cleaning, visualization, feature selection, model training, prediction, performance evaluation and model saving using Joblib.
 
 ---
 
-## 📊 Dataset: Salary Data
+## 📊 Dataset: IBM HR Analytics Employee Attrition Dataset
 
-The project uses the **Salary_Data_Linear_Regression.csv** dataset.
+The project uses the **IBM HR Analytics Employee Attrition & Performance Dataset**.
 
-The dataset contains **30 records** and **2 columns**, representing employee experience and their corresponding salaries.
+**Dataset file:** `HR-Employee-Attrition.csv`
 
-### Dataset Features
+**Dataset download link:**
+
+[Download IBM HR Employee Attrition Dataset](https://raw.githubusercontent.com/OmerFarukMerey/IBM-HR-Analytics-Employee-Attrition-Performance/main/HR-Employee-Attrition.csv)
+
+The original dataset contains **1,470 employee records and 35 columns**.
+
+### Dataset Features Used
 
 | Feature | Description |
 | :--- | :--- |
-| **`YearsExperience`** | Number of years of professional work experience |
-| **`Salary`** | Corresponding employee salary |
+| **Age** | Age of the employee |
+| **MonthlyIncome** | Monthly salary of the employee |
+| **JobSatisfaction** | Employee job satisfaction level |
+| **YearsAtCompany** | Number of years the employee has worked at the company |
+| **WorkLifeBalance** | Employee work-life balance level |
+
+The `MonthlyIncome` column is renamed to `Salary` in the project code for convenience.
 
 ### Dataset Information
 
 | Property | Value |
 | :--- | :--- |
-| Total Records | 30 |
-| Total Features | 1 |
-| Target Variables | 1 |
-| Missing Values | 0 |
-| Input Feature | YearsExperience |
-| Output Feature | Salary |
+| Dataset Name | IBM HR Analytics Employee Attrition |
+| Original Records | 1,470 |
+| Original Columns | 35 |
+| File Format | CSV |
+| Input Features Used | 5 |
+| Target Variable | RiskScore |
+| Missing Values | Checked during preprocessing |
+| Dataset Source | IBM HR Analytics practice dataset |
 
 ### Target Variable
 
-- **`Salary`**: The employee's salary, which is the dependent variable predicted by the trained Machine Learning model.
+- **`RiskScore`**: A numerical demonstration score created using employee information.
+- The score is calculated using job satisfaction, work-life balance, salary and years at the company.
+- A higher score represents a higher estimated risk according to the project's scoring formula.
+
+**Note:** RiskScore is a calculated demonstration target, not an actual employee attrition label from the original dataset.
 
 ---
 
-## 🧠 Methodology: Simple Linear Regression
+## 🧠 Methodology: Multiple Linear Regression
 
-Simple Linear Regression is a supervised Machine Learning algorithm that establishes a linear relationship between one independent variable (X) and one dependent variable (Y).
+Multiple Linear Regression is a supervised Machine Learning algorithm that predicts a numerical output using two or more independent variables.
 
 The mathematical equation is:
 
 \[
-Y = mX + c
+Y = b_0+b_1X_1+b_2X_2+\cdots+b_nX_n
 \]
 
 Where:
 
-- **Y** = Predicted salary
-- **X** = Years of experience
-- **m** = Slope or regression coefficient
-- **c** = Intercept
+- **Y** = Predicted Risk Score
+- **X₁, X₂, ... Xₙ** = Independent employee features
+- **b₀** = Intercept
+- **b₁, b₂, ... bₙ** = Regression coefficients
 
-The model learns the best-fitting regression line by minimizing the sum of squared prediction errors using the Ordinary Least Squares method.
+The model learns the relationship between the selected employee features and the calculated RiskScore using the Ordinary Least Squares method.
 
-### Learned Model Parameters
+### Input Features
 
-Based on the trained model:
+- Age
+- Salary
+- JobSatisfaction
+- YearsAtCompany
+- WorkLifeBalance
 
-- **Coefficient (m):** `9346.9036`
-- **Intercept (c):** `26536.2371`
+### Output Feature
 
-The resulting regression equation is:
-
-\[
-Salary = 9346.9036 \times Experience + 26536.2371
-\]
-
-This indicates that the predicted salary increases by approximately 9,346.90 units for each additional year of experience, according to the fitted model.
+- RiskScore
 
 ---
 
@@ -84,65 +98,50 @@ This indicates that the predicted salary increases by approximately 9,346.90 uni
 
 The complete workflow is implemented in [`Linear_Regrassion.ipynb`](./Linear_Regrassion.ipynb).
 
-1. **Library Importing:** Imported NumPy, Pandas, Matplotlib and Scikit-Learn libraries.
-2. **Data Loading:** Uploaded and loaded the salary dataset using Pandas.
-3. **Data Exploration:** Examined the first five rows, last five rows, dataset information and statistical summary using `head()`, `tail()`, `info()` and `describe()`.
-4. **Data Cleaning:** Checked for missing values using `isnull().sum()`. No missing values were found.
-5. **Data Visualization:** Created a scatter plot to understand the relationship between years of experience and salary.
-6. **Feature and Target Selection:** Selected `YearsExperience` as the independent variable (X) and `Salary` as the dependent variable (y).
-7. **Train-Test Split:** Divided the dataset into training (80%, 24 records) and testing (20%, 6 records) sets using `train_test_split(test_size=0.2, random_state=42)`.
-8. **Model Creation:** Initialized the `LinearRegression()` algorithm.
-9. **Model Training:** Trained the model using `model.fit(X_train, y_train)`.
-10. **Salary Prediction:** Predicted salaries using the testing dataset.
-11. **Actual vs Predicted Comparison:** Compared actual salary values with predicted salary values using Pandas.
-12. **Regression Visualization:** Plotted the training data and fitted regression line.
-13. **Model Evaluation:** Evaluated model performance using MAE, MSE, RMSE and R² Score.
-14. **New Data Prediction:** Predicted salaries for employees with 5 and 7 years of experience.
-15. **Model Saving:** Saved and loaded the trained model using Python Pickle.
+1. **Library Importing:** Imported Pandas, NumPy, Matplotlib, Seaborn and Scikit-Learn libraries.
+2. **Data Loading:** Uploaded and loaded the IBM HR employee dataset using Pandas.
+3. **Data Exploration:** Examined the first five rows, dataset shape, column names, information and statistical summary using `head()`, `shape`, `columns`, `info()` and `describe()`.
+4. **Feature Selection:** Selected Age, Salary, JobSatisfaction, YearsAtCompany and WorkLifeBalance.
+5. **Data Cleaning:** Removed duplicate records and missing values using `drop_duplicates()` and `dropna()`.
+6. **Target Creation:** Created a numerical RiskScore using selected employee features.
+7. **Data Visualization:** Created histograms, a correlation heatmap, a box plot and a scatter plot.
+8. **Feature and Target Selection:** Selected five employee features as independent variables (X) and RiskScore as the dependent variable (Y).
+9. **Train-Test Split:** Divided the available cleaned dataset into training (80%) and testing (20%) sets using `train_test_split(test_size=0.2, random_state=42)`.
+10. **Model Creation:** Initialized the `LinearRegression()` algorithm.
+11. **Model Training:** Trained the model using `model.fit(X_train, Y_train)`.
+12. **Prediction:** Predicted RiskScore values using the testing dataset.
+13. **Actual vs Predicted Comparison:** Compared actual and predicted risk scores using Pandas.
+14. **Model Evaluation:** Evaluated model performance using MAE, MSE, RMSE and R² Score.
+15. **New Employee Prediction:** Predicted the risk score for a new employee using sample employee details.
+16. **Risk Classification:** Displayed Low Risk, Medium Risk or High Risk based on the predicted score.
+17. **Model Saving:** Saved the trained model using Joblib.
 
 ---
 
-## 📊 Performance Results
+## 📊 Performance Evaluation
 
-The model was evaluated using the testing dataset containing 6 unseen records.
+The model is evaluated using the testing dataset.
 
 ### Evaluation Metrics
 
-| Metric | Value | Interpretation |
-| :--- | :--- | :--- |
-| **MAE** | `1725.96` | Average absolute prediction error |
-| **MSE** | `4620853.53` | Average squared prediction error |
-| **RMSE** | `2149.62` | Root mean squared prediction error |
-| **R² Score** | `0.99298` | Approximately 99.30% of target variance explained on the test set |
-
-### Model Parameters
-
-| Parameter | Value |
+| Metric | Description |
 | :--- | :--- |
-| Regression Coefficient | `9346.9036` |
-| Intercept | `26536.2371` |
+| **MAE** | Mean Absolute Error |
+| **MSE** | Mean Squared Error |
+| **RMSE** | Root Mean Squared Error |
+| **R² Score** | Measures how well the model fits the target values |
 
-### Actual vs Predicted Salary
+The actual evaluation values are generated when the Google Colab notebook is executed.
 
-| Actual Salary | Predicted Salary |
-| :---: | :---: |
-| 126756 | 129352.18 |
-| 81363 | 81682.97 |
-| 116969 | 115331.82 |
-| 91738 | 90095.18 |
-| 57189 | 61119.78 |
-| 63218 | 62989.16 |
+### Visualizations
 
-### New Salary Predictions
+The project includes:
 
-The trained model was tested with new experience values.
-
-| Years of Experience | Predicted Salary |
-| :---: | :---: |
-| 5 Years | 73,270.76 |
-| 7 Years | 91,964.56 |
-
-**Key Result:** The model achieved an R² score of approximately **99.30%** on the test dataset, demonstrating a strong linear relationship between years of experience and salary in this dataset.
+- Employee Data Distribution Histogram
+- Correlation Heatmap
+- Employee Data Box Plot
+- Salary vs Risk Score Scatter Plot
+- Actual vs Predicted Risk Score Graph
 
 ---
 
@@ -154,9 +153,10 @@ The trained model was tested with new experience values.
 | **NumPy** | Numerical calculations |
 | **Pandas** | Data manipulation and analysis |
 | **Matplotlib** | Data visualization |
+| **Seaborn** | Statistical data visualization |
 | **Scikit-Learn** | Machine Learning model training and evaluation |
-| **Pickle** | Saving and loading the trained model |
-| **Google Colab / Jupyter Notebook** | Development environment |
+| **Joblib** | Saving and loading the trained model |
+| **Google Colab** | Development environment |
 
 ---
 
@@ -165,22 +165,28 @@ The trained model was tested with new experience values.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY-NAME.git
+git clone https://github.com/Gujardg/Linear_Regrassion-AD3365.git
 
-cd YOUR-REPOSITORY-NAME
+cd Linear_Regrassion-AD3365
 ```
 
 ### 2. Install Required Libraries
 
 ```bash
-pip install numpy pandas matplotlib scikit-learn notebook
+pip install numpy pandas matplotlib seaborn scikit-learn joblib
 ```
 
 ### 3. Dataset Setup
 
-Place the `Salary_Data_Linear_Regression.csv` file in the project directory.
+Download the `HR-Employee-Attrition.csv` file from the dataset link provided above.
+
+Upload the CSV file to Google Colab when prompted.
+
+The original `MonthlyIncome` column must be renamed to `Salary` before selecting the project features.
 
 ### 4. Run the Notebook
+
+Open the notebook:
 
 ```bash
 jupyter notebook Linear_Regrassion.ipynb
@@ -193,18 +199,20 @@ You can also open the notebook directly using Google Colab.
 ## 📁 Project Structure
 
 ```text
-Salary-Prediction-Linear-Regression/
+Employee-Attrition-Risk-Prediction/
 │
 ├── Linear_Regrassion.ipynb
 │
-├── Salary_Data_Linear_Regression.csv
+├── HR-Employee-Attrition.csv
 │
-├── linear_regression_model.pkl
+├── Employee_Attrition_Dataset.csv
+│
+├── Employee_Attrition_Model.pkl
 │
 └── README.md
 ```
 
-**Note:** The Pickle model file is generated when you execute the model-saving section of the notebook.
+**Note:** The processed dataset and trained model files are generated after executing the corresponding notebook cells. The model is saved using Joblib.
 
 ---
 
@@ -213,24 +221,28 @@ Salary-Prediction-Linear-Regression/
 Through this project, I learned:
 
 - Fundamentals of Supervised Machine Learning.
-- Implementation of Simple Linear Regression.
-- Data exploration and preprocessing.
-- Data visualization using Matplotlib.
+- Implementation of Multiple Linear Regression.
+- Loading and exploring CSV datasets.
+- Data cleaning and preprocessing.
+- Data visualization using Matplotlib and Seaborn.
+- Selecting independent and dependent variables.
 - Training and testing Machine Learning models.
 - Understanding regression coefficients and intercepts.
 - Evaluating models using MAE, MSE, RMSE and R² Score.
-- Making predictions using new input data.
-- Saving and loading trained models using Pickle.
+- Making predictions using new employee information.
+- Saving and loading trained models using Joblib.
 
 ---
 
 ## 📝 Conclusion
 
-This project successfully demonstrates the implementation of Simple Linear Regression for salary prediction using years of experience.
+This project demonstrates the implementation of Multiple Linear Regression using the IBM HR Analytics Employee Attrition Dataset.
 
-The trained model achieved an R² score of approximately 99.30% on the test dataset. The results indicate that years of experience is a strong predictor of salary in the given dataset.
+The model uses five employee features to estimate a numerical attrition-risk score. It includes data preprocessing, visualization, model training, prediction and performance evaluation.
 
-This project helped develop a practical understanding of the Machine Learning pipeline, from importing and exploring data to model training, prediction, evaluation and deployment preparation.
+This project helped develop a practical understanding of the Machine Learning workflow, from loading and exploring employee data to training, evaluating and saving a regression model.
+
+**Important:** The RiskScore used in this project is generated using a predefined formula. Therefore, the model demonstrates regression techniques but does not establish actual employee resignation predictions.
 
 ---
 
@@ -240,9 +252,11 @@ This project helped develop a practical understanding of the Machine Learning pi
 
 **Student GitHub Repository:** [View My Project](https://github.com/Gujardg/Linear_Regrassion-AD3365)
 
-**Project:** Salary Prediction Using Simple Linear Regression
+**Project:** Employee Attrition Risk Prediction
 
-**Algorithm:** Simple Linear Regression
+**Algorithm:** Multiple Linear Regression
+
+**Dataset:** IBM HR Analytics Employee Attrition Dataset
 
 **Domain:** Machine Learning
 
